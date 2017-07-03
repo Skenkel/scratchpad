@@ -1,0 +1,21 @@
+psuedocode:
+initialize at date 
+get all challenger players, add to textfile of summoner ids.
+Get all master players add to text file of summoner ids.
+
+end run once block
+
+For each player in textfile, get matchlist of ranked. (matchlist function) 
+For each match on matchlist check sql database to see if there is a entry with that match id. (matchcheckfunction) 
+If there is not, get match information into table twise (matchget function), once reversed. 
+
+
+
+For each player in summoner id text file1 , starting from first line, check ranked match history and check other player ids for previous 10 ranked games. If a player id is not text file and player is gold ranked, add player id to text file,
+then matchlist
+matchcheck
+matchget
+
+Every 24hours restart at top of text file with the matchlist,matchcheck, matchget, functions, then do another summoner id pull. 
+
+

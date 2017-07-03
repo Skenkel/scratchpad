@@ -1,0 +1,30 @@
+step 1:
+use match api to pull limit of matches into of sql databases. (trying to get gold ranked and above)
+Run for an entire patch to generate dataset. 
+each match is split into two sets of 5 champions ids (by position), match id (ignored, but used to make sure ther aren't dupes), and patch version (future use) and win (1 is win 0 is loss)
+split the approx 200k sets into 3 data sets. 
+this is database 1
+step 2: 
+Analysis of database to identify statsictally significant synergies among champion ids (positive or negative).
+
+Tensor flow:
+Each x is the champion played in each role. The win vs loss is trained (match id and patch are ignored)
+
+step 3:
+After complete model, for every reasonable combination of champions, is fed into the model and given a w or a l.
+
+These are fed into a database (database 2). 
+
+step4: 
+for less than a complete team, the predicted w vs  predicted loss (from 2 and 3) for all possible teams containing that 3 of or 4 or 2 of or 1 of is averaged.
+This is used to generate database 3,4,5,6, which is sorted by summonerid in a role, and contains the average (predicted win predicted loss) 
+ 
+example: 
+1 of table has an entry for jinx adc. The simulation is run with jinx adc and malphit support, All possible 5 man team comps that contain jinx bot and malph support are fed to tensor algo, and w v loss is averaged,  and jinx's row malphite column now contains this number. 
+VERSion 2 improvement. When running the simluation of all possible teams, weight the simulation by play rate of champion to make more common vs less commmon comps more or less important in model. 
+
+
+Step 5: input summoner ids (between 1 and 4). This represents the current number of people in dynamic queue. 
+step 6: Calculate highest win percentage and kda champions for eachs summoner. Choose these two (with position)
+step 7: use the combination position and summoner id with the table from step 4 to identifiy the two highest win rate champions/positions.  These are the "Desired champs"
+STep 8: SCrub recently played summoner id (over and over again) from the summoners in step 5, checking for highest win percentage and kda champions to find the player with highest win percentage/kda on the two "Desired champs". This is the "desired dynamic queue partner" and the program has returned the value desired. 
